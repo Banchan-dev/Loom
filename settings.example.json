@@ -1,0 +1,37 @@
+{
+  "_comment": "Loom hooks — merge the `hooks` block into your ~/.claude/settings.json. Uses python3 from PATH and ~/.claude relative paths. codex-gate is intentionally omitted here (optional, needs the codex CLI) — see INSTALL.md.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          { "type": "command", "command": "python3 ~/.claude/hooks/heavy-bg-gate.py", "shell": "bash" }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "python3 ~/.claude/hooks/check-mojibake.py", "shell": "bash" }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          { "type": "command", "command": "python3 ~/.claude/hooks/answer-lint.py", "shell": "bash" }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          { "type": "command", "command": "python3 ~/.claude/hooks/lint-router.py", "shell": "bash" }
+        ]
+      }
+    ]
+  },
+  "_outputStyle_comment": "To use an output style, set the value to the style's name (the filename in output-styles/ without .md), e.g. \"concise-readable\". Leave it null for Claude's default behavior.",
+  "outputStyle": null
+}

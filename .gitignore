@@ -1,0 +1,19 @@
+# 개인 데이터 — 절대 커밋 금지 (각자 로컬에만)
+*.local.md
+settings.local.json
+.credentials.json
+.bottoken
+.webhook
+pair_messages.json
+ME_CORE.md
+ABOUT_ME*.md
+IDEAS.md
+NOW.md
+LIFE_SLOTS.md
+memory/
+cards/
+past/
+_audit_scratch/
+_*.txt
+__pycache__/
+*.pyc
