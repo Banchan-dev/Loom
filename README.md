@@ -23,6 +23,9 @@ Concrete, not abstract — here's what changes once you've filled in your layer:
   - *Before:* you keep asking Claude to be more concise.
   - *After:* a Stop hook checks the answer against your length/tone rule and nudges one rewrite if it runs long.
 - **Your preferences ride along every turn.** Your always-on rules file is injected on each prompt, so the assistant starts from *your* defaults instead of generic ones.
+- **Pick up exactly where you left off.** You keep one handoff note that records what you and the assistant were doing — current state, what's done, what's next — and the assistant keeps it current as you work.
+  - *Before:* every new terminal session starts cold; you re-explain what you were in the middle of.
+  - *After:* open Claude Code from any folder, any time, and the assistant reads the handoff note first — so you continue mid-thread instead of restarting from scratch.
 
 The point: you state a preference **once**, and the engine keeps re-applying it — instead of you repeating yourself.
 
@@ -31,8 +34,8 @@ The point: you state a preference **once**, and the engine keeps re-applying it 
 - **Behavior hooks** — e.g. an answer-format linter that nudges a response violating your length/tone rules toward a rewrite, plus a cross-verification gate.
   - ⚠️ *Honest limit:* these are **nudges, not hard guarantees.** A Stop hook can reject a response once and force a rewrite, but the second pass always goes through (to avoid infinite loops). Treat it as a strong reminder, not an absolute lock.
 - **Context router** — injects the right rules per prompt, matched by keyword.
-- **Knowledge cards** — markdown notes auto-loaded when your prompt matches their triggers.
-  - ⚠️ *Honest limit:* matching is keyword-based, so it **misses** when your natural-language prompt doesn't contain the trigger words. Recall is best-effort, not guaranteed.
+- **Knowledge cards** — markdown notes auto-loaded when your prompt matches their triggers. Ranking splits keywords into *anchors* (real topic words) vs *facets* (generic words like "bug/todo" that can't summon a card alone, only add points), weights by IDF, and — if your cards carry `domain/area/kind` frontmatter — narrows by area then discriminates by kind. When a prompt spans several areas with no kind cue, it adds a one-line *clarify* hint instead of guessing.
+  - ⚠️ *Honest limit:* it's still **keyword-based**, so it can miss when your natural-language prompt avoids the trigger words entirely. The anchor/facet split and hierarchy cut over-firing and area-confusion, but recall is best-effort, not guaranteed (no embeddings/vectors — deliberately, to stay stdlib-only and instant).
 - **Skills** — `planner` (adversarial feasibility check *before* you build), `interview` (pull your vision out through questioning), `humanizer` (strip AI-tells from writing).
   - **`loom`** (⚠️ *experimental — not validated end-to-end*) — first-run setup wizard (and re-config). After install, run `/loom`: with your consent it scans the chats and project folders you point it at for explicit instructions and interviews you, then drafts your personal layer (answer style, tone, rules) for your approval. Re-run `/loom` anytime to adjust. Treat it as a starting point, not a finished flow.
 - **Output style** — readability/formatting defaults you can customize.
