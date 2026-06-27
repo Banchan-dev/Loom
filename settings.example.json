@@ -32,6 +32,5 @@
       }
     ]
   },
-  "_outputStyle_comment": "To use an output style, set the value to the style's name (the filename in output-styles/ without .md), e.g. \"concise-readable\". Leave it null for Claude's default behavior.",
-  "outputStyle": null
+  "_outputStyle_comment": "To use an output style, add a line like \"outputStyle\": \"concise-readable\" (filename in output-styles/ without .md). For Claude's default, OMIT the key entirely — do NOT set it to null, Claude Code rejects null with a settings error."
 }
