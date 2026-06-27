@@ -83,8 +83,10 @@ def redact(text):
 
 
 def find_history_dir():
-    """~/.claude/projects 위치. 없으면 None(스킬이 중단 안내하게)."""
-    base = os.path.join(os.path.expanduser("~"), ".claude", "projects")
+    """conversation history dir. Respects CLAUDE_CONFIG_DIR (isolated/multi-config
+    installs); falls back to ~/.claude. Returns None if missing (skill then halts)."""
+    cfg = os.environ.get("CLAUDE_CONFIG_DIR") or os.path.join(os.path.expanduser("~"), ".claude")
+    base = os.path.join(cfg, "projects")
     return base if os.path.isdir(base) else None
 
 
